@@ -1,0 +1,20 @@
+.card{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 20px;
+}
+
+.card>img{
+    width: 200px;
+    height: 200px;
+}
+
+.delete-btn{
+    background-color: rgb(184, 0, 0);
+}
+
+.update-btn{
+    background-color: rgb(40, 115, 255);
+}
