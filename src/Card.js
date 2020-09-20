@@ -1,33 +1,50 @@
+import React from "react";
+import ApiConnect from "./api/ApiConnect";
+import "./Card.css";
+import DeleteBtn from "./DeleteBtn";
+import UpdateBtn from "./UpdateBtn";
 
-import React from 'react';
-import ApiConnect from './api/ApiConnect';
-import './Card.css';
-import DeleteBtn from './DeleteBtn'
-import UpdateBtn from './UpdateBtn'
+class Card extends React.Component {
+  state = {
+    firstName: "",
+    lastName: "",
+    src: "",
+  };
 
-class Card extends React.Component{
-    remove = id => {
-        return ApiConnect.delete(`${id}`);
-    };
+  componentDidMount() {
+    this.setState({
+      firstName: this.props.firstName,
+      lastName: this.props.lastName,
+      src: this.props.avatarSrc,
+    });
+  }
 
-    onClickDeleteBtn = () => {
-        this.remove(`${this.props.id}`)
+  remove = async () => {
+    await ApiConnect.delete(`${this.props.id}`);
+    this.props.onClick();
+  };
+
+  update = async (data) => {
+      let infoToUpdate = {}
+    for (const property in data) {
+        data[property] !== '' && (infoToUpdate[property] = data[property])
     }
+    await ApiConnect.put(`/${this.props.id}`, infoToUpdate);
+    this.props.onClick();
+  };
 
-    
-    render(){
-        return (
-            <div className="card">
-                <p>{this.props.avatarInfo}</p>
-                <img src={this.props.avatarSrc}></img>
-                <div>
-                    <UpdateBtn/>
-                    <DeleteBtn onClick={this.onClickDeleteBtn}/>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="card">
+        <p>{`${this.state.firstName} ${this.state.lastName}`}</p>
+        <img src={this.state.src}></img>
+        <div>
+          <UpdateBtn onClick={this.update} />
+          <DeleteBtn onClick={this.remove} />
+        </div>
+      </div>
+    );
+  }
 }
-
 
 export default Card;

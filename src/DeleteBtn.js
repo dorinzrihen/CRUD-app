@@ -5,7 +5,7 @@ import './Card.css';
 class DeleteBtn extends React.Component{
 
     onClickDelete = () => {
-        this.props.onClick("work")
+        this.props.onClick()
     }
 
     
