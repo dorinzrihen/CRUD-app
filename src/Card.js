@@ -1,8 +1,12 @@
 import React from "react";
-import ApiConnect from "./api/ApiConnect";
 import "./Card.css";
 import DeleteBtn from "./DeleteBtn";
 import UpdateBtn from "./UpdateBtn";
+import ApiConnect from "./api/ApiConnect";
+
+const updateApi = (id, data) => {
+    ApiConnect.put(`/${id}`, data);
+  };
 
 class Card extends React.Component {
   state = {
@@ -21,7 +25,7 @@ class Card extends React.Component {
 
   remove = async () => {
     await ApiConnect.delete(`${this.props.id}`);
-    this.props.onClick();
+    await this.props.onClick();
   };
 
   update = async (data) => {
@@ -29,8 +33,8 @@ class Card extends React.Component {
     for (const property in data) {
         data[property] !== '' && (infoToUpdate[property] = data[property])
     }
-    await ApiConnect.put(`/${this.props.id}`, infoToUpdate);
-    this.props.onClick();
+    let test = async () => { await updateApi(this.props.id, infoToUpdate)};
+    test().then(this.props.onClick());
   };
 
   render() {

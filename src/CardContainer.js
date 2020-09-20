@@ -1,5 +1,5 @@
 import React from "react";
-import ApiGet from "./api/ApiConnect";
+import ApiConnect from "./api/ApiConnect";
 import "./App.css";
 import Card from "./Card";
 import SearchAvatar from "./SearchAvatar";
@@ -7,7 +7,7 @@ import AddCard from "./AddCard";
 
 class CardContainer extends React.Component {
   state = {
-    randomAvatar: [],
+    cardsConatiner: [],
     searchInput: "",
     fullAvatarArr: [],
     response: null,
@@ -17,11 +17,13 @@ class CardContainer extends React.Component {
     this.setState({ searchInput: input }, () => this.renderCards());
   };
 
-  async getUpdatedInformation() {
-    this.setState({ response: await ApiGet.get()}, () => {this.setState({ fullAvatarArr: this.state.response.data }, () =>
-    this.renderCards()
-  )});
-    
+  getUpdatedInformation = async () => {
+    const currentUpdatedApi = await ApiConnect.get();
+    console.log(currentUpdatedApi);
+    this.setState({ response: currentUpdatedApi})
+    const arr = await this.state.response.data;
+    this.setState({ fullAvatarArr: arr }, () =>
+    this.renderCards())
   }
 
   renderCards = () => {
@@ -41,11 +43,11 @@ class CardContainer extends React.Component {
         )
       );
     });
-    this.setState({ randomAvatar: avatarInfoContainer });
+    this.setState({ cardsConatiner: avatarInfoContainer });
   };
 
   renderNewCard = async (info) => {
-    await ApiGet.post("", info);
+    await ApiConnect.post("", info);
     this.getUpdatedInformation();
   };
 
@@ -54,7 +56,6 @@ class CardContainer extends React.Component {
   }
 
   renderUpdateCard = async () => {
-    console.log("#3");
     this.getUpdatedInformation();
   };
 
@@ -63,7 +64,7 @@ class CardContainer extends React.Component {
       <>
         <SearchAvatar onChange={this.filterCards} />
         <AddCard onClick={this.renderNewCard} />
-        <div className="cards-container">{this.state.randomAvatar}</div>
+        <div className="cards-container">{this.state.cardsConatiner}</div>
       </>
     );
   }

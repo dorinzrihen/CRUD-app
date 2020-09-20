@@ -2,7 +2,7 @@
 import React from 'react';
 import './Card.css';
 import NewFiled from './NewFiled';
-import ApiGet from './api/ApiConnect';
+
 
 
 class UpdateCardFiled extends React.Component{
