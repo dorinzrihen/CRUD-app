@@ -37,9 +37,9 @@ class Card extends React.Component {
       <div className="card">
         <p>{`${this.state.firstName} ${this.state.lastName}`}</p>
         <img src={this.state.src}></img>
-        <div>
-          <UpdateBtn onClick={this.update} />
+        <div className="card__btn">
           <DeleteBtn onClick={this.remove} />
+          <UpdateBtn onClick={this.update} />
         </div>
       </div>
     );

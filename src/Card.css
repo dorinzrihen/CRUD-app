@@ -4,11 +4,25 @@
     flex-direction: column;
     border: 1px solid black;
     padding: 20px;
+    background-image: linear-gradient(rgba(92, 47, 255, 0.356), rgba(66, 179, 255, 0.301));
+    font-weight: bold;
+    width: 250px;
+}
+
+.card p{
+    text-align: center;
 }
 
 .card>img{
     width: 200px;
     height: 200px;
+}
+
+.card__btn{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 .delete-btn{
@@ -17,4 +31,9 @@
 
 .update-btn{
     background-color: rgb(40, 115, 255);
+}
+
+.inputFiled{
+    display: flex;
+    flex-direction: column;
 }

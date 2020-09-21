@@ -15,4 +15,10 @@ button{
   border: none;
   color: white;
   cursor: pointer;
+  height: 20px;
+  background-color: orangered;
+}
+
+input{
+  width: 150px;   
 }

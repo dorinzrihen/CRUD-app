@@ -15,7 +15,7 @@ class NewFiled extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="inputFiled">
         <label>{this.props.title}</label>
         <input
           type="text"
