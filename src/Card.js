@@ -4,9 +4,6 @@ import DeleteBtn from "./DeleteBtn";
 import UpdateBtn from "./UpdateBtn";
 import ApiConnect from "./api/ApiConnect";
 
-const updateApi = (id, data) => {
-    ApiConnect.put(`/${id}`, data);
-  };
 
 class Card extends React.Component {
   state = {
@@ -24,17 +21,15 @@ class Card extends React.Component {
   }
 
   remove = async () => {
-    await ApiConnect.delete(`${this.props.id}`);
-    await this.props.onClick();
+    this.props.deleteaApp(this.props.id);
   };
 
   update = async (data) => {
-      let infoToUpdate = {}
+    let infoToUpdate = {};
     for (const property in data) {
-        data[property] !== '' && (infoToUpdate[property] = data[property])
+      data[property] !== "" && (infoToUpdate[property] = data[property]);
     }
-    let test = async () => { await updateApi(this.props.id, infoToUpdate)};
-    test().then(this.props.onClick());
+    this.props.updateApp(this.props.id,infoToUpdate);
   };
 
   render() {
