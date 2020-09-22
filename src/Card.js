@@ -20,11 +20,11 @@ class Card extends React.Component {
     });
   }
 
-  remove = async () => {
+  remove = () => {
     this.props.deleteaApp(this.props.id);
   };
 
-  update = async (data) => {
+  update = (data) => {
     let infoToUpdate = {};
     for (const property in data) {
       data[property] !== "" && (infoToUpdate[property] = data[property]);

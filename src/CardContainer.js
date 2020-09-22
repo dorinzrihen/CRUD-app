@@ -7,7 +7,6 @@ import AddCard from "./AddCard";
 
 class CardContainer extends React.Component {
   state = {
-    cardsConatiner: [],
     searchInput: "",
     response: null,
     fullAvatarArr:[]
@@ -18,21 +17,23 @@ class CardContainer extends React.Component {
   };
 
   getUpdatedInformation = async () => {
-    this.setState({cardsConatiner:[]})
+
     const currentUpdatedApi = await ApiConnect.get();
-    this.setState({ response: currentUpdatedApi});
-    const arr = await this.state.response.data;
-    this.setState({ fullAvatarArr: arr }, () => this.renderCards());
+    //this.setState({ response: currentUpdatedApi.data});
+    //const arr = await this.state.response.data;
+    this.setState({ fullAvatarArr: currentUpdatedApi.data });
   };
 
 
   renderCards = () => {
-    const avatarInfoContainer = this.state.fullAvatarArr.map((avatar) => {
+    debugger;
+    const avatarInfoContainer = this.state.fullAvatarArr.map((avatar,index) => {
       const fullName = `${avatar.first_name} ${avatar.last_name}`;
       return (
         (this.state.searchInput === "" ||
           fullName.includes(this.state.searchInput)) && (
           <Card
+            key={index}
             updateApp={this.renderUpdateCard}
             deleteaApp={this.test}
             avatarSrc={avatar.avatar}
@@ -43,12 +44,13 @@ class CardContainer extends React.Component {
         )
       );
     });
-    this.setState({ cardsConatiner: avatarInfoContainer });
+    return avatarInfoContainer;
+    //this.setState({ cardsConatiner: avatarInfoContainer });
   };
 
   renderNewCard = async (info) => {
-    ApiConnect.post("", info);
-    this.getUpdatedInformation();
+    await ApiConnect.post("", info);
+    await this.getUpdatedInformation();
   };
 
   async componentDidMount() {
@@ -56,24 +58,25 @@ class CardContainer extends React.Component {
   }
 
   test = async (id) => {
-    ApiConnect.delete(`/${id}`);
-    this.getUpdatedInformation();
+    await ApiConnect.delete(`/${id}`);
+    await this.getUpdatedInformation();
   };
 
   renderUpdateCard = async (id, info) => {
-    ApiConnect.put(`/${id}`, info);
-    this.getUpdatedInformation();
+    await ApiConnect.put(`/${id}`, info);
+    await this.getUpdatedInformation();
   };
 
   render() {
-      if (this.state.cardsConatiner.length === 0 || this.state.cardsConatiner == null) {
+      if (this.state.fullAvatarArr == null || this.state.fullAvatarArr.length === 0) {
         return <p>loading...</p>
       }
+      console.log(this.state.fullAvatarArr.length)
       return(
         <>
           <SearchAvatar onChange={this.filterCards} />
           <AddCard onClick={this.renderNewCard} />
-          <div className="cards-container">{this.state.cardsConatiner}</div>
+          <div className="cards-container" >{this.renderCards()}</div>
         </>
     );
   }
